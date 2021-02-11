@@ -1,32 +1,55 @@
 # Some title
 
-## Introduction
+## Antisense therapy
 
-### Transcrpition process
-DNA -> RNA -> Protein
+Since the advent of the human genome project, we have advanced rapidly in sequencing technology. One big advantage to this is that we have been able to identify the genetic roots of several diseases such as cancer, Parkinson's, rheumatoid arthritis, and Alzheimer's. This knowledge has been thoroughly applied to diagnostic use. However, its full potential has not been realised to treating these diseases.
 
-### Why and How do ASOs work?
-`A protein is being produced and being produced by a gene somewhere and causes something bad to happen. Why do we want to stop it being produced?`
+How wonderful would it be to target these specific genetic defects with personalized medicine?
 
-We intervene in the RNA phase to stop the transcription into proteins.
+Recently, RNA- and DNA-based drugs have shown great promise of treating diseases at the genetic level. Typically they are chemically engineered oligonucleotides that are complementary to a specific messenger RNA (mRNA). They bind to the mRNA through standard base-pairing which stops the translation of the target protein. These short, synthetic, single-stranded nucleic acids are called antisense oligonucleotides (ASOs).
 
-We do this by binding DNA to RNA which is an unnatural structure in the body. So the RNAse destroys the RNA thus preventing the bad protein from being produced.
+`insert picture of ASO targeting an mRNA`
 
-`picture here`
+Include reference to red paper
 
-The challenger here is to take this synthesised strand of DNA (also known as ASOS) and attach it to the target. A single strand of DNA does not last long in the body so we need to protect this DNA. One way of protecting it is with Locked Nucleic Acids.
+## Locked Nucleic Acids (LNA)
 
-### What are LNA
+If we simply produce a short strand of DNA or RNA complementary to the specific mRNA we run into some limitations:
 
-LNA is a modified RNA nucleotide that improves stability and reduces degradation caused by enzymes. More specifically, the DNA is flanked by a combination of LNA and DNA bases. In this notebook we will write ASOs as strings of nucleobases with the convention that bases that have been modified to be LNA will be written in uppercase, while unmodified DNA will be written with the base letter in lowercase, like this:
+* It will be unstable, i.e. likely to degrade.
+* It will likely bind to other RNA sequences than the targeted one.
+
+and these cause a lot of side effects. Therefore the oligonucleotides need modifications to overcome these limitations. One example are locked nucleic acids (LNA). Specifically LNA is a modification of the sugar ring that make up the nucleotide.
+
+Include Jesper Wengle review paper on LNA as a novel class....
+
+## LNA-Gapmers
+
+How to make use of LNA, then? The synthesized oligonucleotide above will be flanked by LNA molecules, which not only will protect it from enzymes, but also help it attach to the targeted mRNA sequence. These are called LNA-gapmers and the gap refers to the unmodified oligonucleotide between the LNA flanks.
+
+The ASOs we will be discussing in this blogpost are LNA-gapmers. Here they will be represented as strings of nucleobases with the convention that bases that have been modified to be LNA will be written in uppercase, while unmodified nucleotides will be written with the base letter in lowercase. Below is an example with a DNA oligonucleotide:
 
 <big> ```TGGCaagcatccTGTA``` </big>
 
+## Toxic side effects
 
-### Gapmers -> the thing above
-Gapmers are flanked ASOs. In this case, we have more specifically, LNA-gapmers.
+Some LNA ASOs are very effective at reducing expression of targeted proteins. However there is evidence that LNA ASOs can cause liver damage (hepatotoxicity).
 
-### Toxic side effects
+[ref] https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1802611/.
+[ref] https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4797265/
+
+While such drugs would not be approved for clinical trials, a clear understanding of the mechanism leading to toxicity is necessary to improve the development of safe ASOs drugs
+
+Preclinical studies have shown that levels of liver toxicity were independent of the gene inhibition caused by LNA ASOs [https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1802611/]. Moreover the replacement of a single nucleotide in the LNA gapmer can have significant effects on its toxicity [https://www.liebertpub.com/doi/abs/10.1089/nat.2012.0366], meaning that LNA ASO design could be a major contributer to toxicity.
+
+----
+
+However, it is not obvious how the LNA ASO sequence composition causes such liability, as their degrees of toxicity can vary widely.
+
+
+
+People have used machine learning methods to understand the relation between LNA ASO sequence structures, toxicity and potency
+
 
 The general challenges of using ASOS. The side effect of using strong bindings such as LNA is that the can interact with other things they shouldn't be.
 
@@ -36,9 +59,9 @@ In practice many ASOs have a significant cytotoxic potential (their presence in 
 
 ### The pattern of toxicity and motivation for QL
 
-A lot of research is done on what causes the toxicity of ASOs [ref]. 
+A lot of research is done on what causes the toxicity of ASOs [ref].
 
-In this blogpost we investigate the problem in a simple manner: we find a mathematical expression that generalises over two different ASOs. 
+In this blogpost we investigate the problem in a simple manner: we find a mathematical expression that generalises over two different ASOs.
 
 Many studies have applied traditional machine learning methods such as random forest and gradient boosting to predict ASO toxicity [ref]. However, they often did not generalise to new experiments [ref].
 
@@ -101,14 +124,14 @@ We want to find a mathematical expression that models the toxicity of an ASOs wi
 The QLattice explores the space of all mathematical expressions, including parameters, for the expressions that best model the relationship between the output (toxicity) and the input (ASO design characteristics). The result of the search is a list of expressions sorted by how well they match observations.
 
 In this blogpost we use the QLattice to generate classification models. Mathematically, this means that the QLattice will wrap each expression in a logistic function, which allows the output to be interpreted as a probability. In other words: if $X$ is an input vector, $f(X)$ is the mathematical equation, and $Y$ is the event we want to predict, then the QLattice will search for functions $f$ such that the predictive power of:
-$$\widehat{Y} = \frac{1}{1+e^{-f(X)}}$$ 
-is maximised. 
+$$\widehat{Y} = \frac{1}{1+e^{-f(X)}}$$
+is maximised.
 
 In our case, Y is the probability of an ASO being above the 300% toxicity cutoff value, and $f$ is *any* function of our input features:
 
-$$\widehat{P}(too\_toxic) = \frac{1}{1+e^{-f(lna\_5p, lna\_3p, dna\_count, lna\_count, aso\_len)}}$$ 
+$$\widehat{P}(too\_toxic) = \frac{1}{1+e^{-f(lna\_5p, lna\_3p, dna\_count, lna\_count, aso\_len)}}$$
 
-> Note that in order to connect to and use a QLattice you need get one from Abzu. QLattices are a limited resource, but we do offer them for free for scientific purposes. 
+> Note that in order to connect to and use a QLattice you need get one from Abzu. QLattices are a limited resource, but we do offer them for free for scientific purposes.
 
 # Do the fitting
 
