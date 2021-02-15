@@ -6,10 +6,15 @@ Since the advent of the human genome project, we have advanced rapidly in sequen
 
 How wonderful would it be to target these specific genetic defects with personalized medicine?
 
-Recently, RNA- and DNA-based drugs have shown great promise of treating diseases at the genetic level. Typically they are chemically engineered oligonucleotides that are complementary to a specific messenger RNA (mRNA). They bind to the mRNA through standard base-pairing which stops the translation of the target protein. These short, synthetic, single-stranded nucleic acids are called antisense oligonucleotides (ASOs).
+Recently, RNA- and DNA-based drugs have shown great promise of treating diseases at the genetic level. One specific type of drug is chemically engineered oligonucleotides that are complementary to a specific messenger RNA (mRNA). They bind to the mRNA through standard base-pairing which stops the translation of the target protein. These short, synthetic, single-stranded nucleic acids are called antisense oligonucleotides (ASOs).
 
 ![Antisense](assets/antisense_therapy.png)
 [*The Conversation* - Antisense therapy: a promising new way to treat neurological disease](https://theconversation.com/antisense-therapy-a-promising-new-way-to-treat-neurological-disease-89006)
+
+```
+- DNA/RNA is not converted, it is transcribed
+- gapmers are RNase H recruiting, an enzyme that cleaves the site that the gapmer attached to.
+```
 
 This introduction relied heavily on [*Antisense Therapy: An Overview* by Shashwat Sharad](https://www.intechopen.com/books/antisense-therapy/antisense-therapy-an-overview).
 
@@ -20,7 +25,7 @@ If we simply produce a short strand of DNA or RNA complementary to the specific 
 * it will be unstable, i.e. likely to degrade;
 * it will likely bind to other RNA sequences than the targeted one, i.e. low specificity;
 
-and these cause a lot of side effects. Therefore the oligonucleotides need modifications to overcome these limitations. One example are locked nucleic acids (LNA). These are modifications to the sugar ring that make up the nucleotide.
+and these cause a lot of side effects. Therefore the oligonucleotides need modifications to overcome these limitations. One example are locked nucleic acids (LNA). These are modifications to the sugar ring that make up the nucleotide. LNA modifications are intended to increase the binding energy of the compound, increasing the likelihood that it will attach to the target site on the preRNA.
 
 For more information on LNA, you can begin by checking [*Locked nucleic acid as a novel class of therapeutic agents* by R. N. Veedu and J. Wengel](https://doi.org/10.4161/rna.6.3.8807).
 
@@ -32,9 +37,11 @@ The ASOs we will be discussing in this blogpost are LNA gapmers. Here they will 
 
 <big> ```TGGCaagcatccTGTA``` </big>
 
+Here `TGGC` and `TGTA` are the LNA-modified flanks and `aagcatcc` is the 'gap' between the flanks with standard DNA sugars.
+
 ## Toxic side effects
 
-Some LNA ASOs are very effective at reducing expression of targeted proteins. However there is evidence that LNA ASOs can cause liver damage  (hepatotoxicity) - [Swayze et al](10.1093/nar/gkl1071), [Burel et al](10.1093/nar/gkv1210).
+Some LNA ASOs are very effective at reducing the expression of targeted proteins. However there is evidence that LNA ASOs can cause liver damage  (hepatotoxicity) - [Swayze et al](10.1093/nar/gkl1071), [Burel et al](10.1093/nar/gkv1210).
 
 While such drugs would not be approved for clinical trials, a clear understanding of the mechanism leading to toxicity is necessary to improve the development of safe ASO drugs.
 
@@ -42,7 +49,7 @@ Preclinical studies have shown that levels of liver toxicity were independent of
 
 People have used machine learning methods to understand the relation between LNA ASO sequence structures and toxicity ([Hagedorn et al](10.1089/nat.2013.0436), [Stanton et al](https://doi.org/10.1089/nat.2012.0366), [Papargyri et al](https://doi.org/10.1016/j.omtn.2019.12.011)). In this blogpost we aim at contributing to these efforts by applying a novel method using symbolic regression: the [QLattice](https://www.abzu.ai/).
 
-The QLattice is a symbolic regression algorithm designed to find the simplest mathematical relationship that will explain observations. One can find more about it [here](https://docs.abzu.ai/).
+The QLattice is a symbolic regression algorithm designed to find the simplest mathematical relationship that will explain observations. One can find out more about it [here](https://docs.abzu.ai/).
 
 In summary, the crux of this blogpost will be to try to answer the following question:
 
@@ -108,7 +115,9 @@ Here is the final dataset to be fed to the QLattice. Observe this is only on ASO
 
 We want to find a mathematical hypothesis that models the toxicity of ASOs with the features we've engineered above. We do this using the QLattice.
 
-The QLattice is a quantum simulator that explores the space of all mathematical expressions that best model the relationship between output (toxicity) and input (ASO design characteristics). The result of the search is a list of hypotheses sorted by how well they match observations.
+The QLattice is a quantum-inspired algorithm that explores the space of all mathematical expressions that relate the output (toxicity) to the input (ASO design characteristics). The result of the search is a list of hypotheses sorted by how well they match observations.
+
+Caspase toxicity is a biological mechanism that is a function of many subprocesses in the cell. Working with the QLattice is an iterative process by which we want to understand how the data we have is related to these biological mechanisms. We start by engineering some simple features and by seeing how they interact eventually come up with appropriatetly complex features to describe caspase toxicity. The output in the end is not only a predictive model that we can benchmark, but an actual explanation of the underlying biology that enables us to design less toxic compounds in the future.
 
 In this blogpost we use the QLattice to generate classification models. Mathematically, this means that the QLattice will wrap each expression in a logistic function. This allows the output to be interpreted as a probability. In other words, if $X$ is an input vector and $Y$ is the event we want to predict, then the QLattice will search for functions $f(X)$ such that the predictive power of
 $$\widehat{Y} = \frac{1}{1+e^{-f(X)}}$$
