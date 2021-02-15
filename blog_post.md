@@ -1,4 +1,3 @@
-# Some title
 
 ## Antisense therapy
 
@@ -23,9 +22,9 @@ This introduction relied heavily on [*Antisense Therapy: An Overview* by Shashwa
 If we simply produce a short strand of DNA or RNA complementary to the specific mRNA we run into some limitations:
 
 * it will be unstable, i.e. likely to degrade;
-* it will likely bind to other RNA sequences than the targeted one, i.e. low specificity;
+* it has a poor binding affinity making it bad at attaching to the target site.
 
-and these cause a lot of side effects. Therefore the oligonucleotides need modifications to overcome these limitations. One example are locked nucleic acids (LNA). These are modifications to the sugar ring that make up the nucleotide. LNA modifications are intended to increase the binding energy of the compound, increasing the likelihood that it will attach to the target site on the preRNA.
+Therefore the oligonucleotides need synthetic modifications to overcome these limitations. One example is locked nucleic acids (LNA). These are modifications to the sugar ring that make up the nucleotide. LNA modifications are intended to increase the resistance of the ASO to degradation. LNA also has a big effect on the binding energy of the ASO, increasing the likelihood that it will attach to the target site on the mRNA.
 
 For more information on LNA, you can begin by checking [*Locked nucleic acid as a novel class of therapeutic agents* by R. N. Veedu and J. Wengel](https://doi.org/10.4161/rna.6.3.8807).
 
@@ -111,13 +110,11 @@ Here is the final dataset to be fed to the QLattice. Observe this is only on ASO
 
 ![Feature engineered dataset](assets/data_set_feateng.png)
 
-## What is a QLattice?
-
-We want to find a mathematical hypothesis that models the toxicity of ASOs with the features we've engineered above. We do this using the QLattice.
+## Why use a QLattice?
 
 The QLattice is a quantum-inspired algorithm that explores the space of all mathematical expressions that relate the output (toxicity) to the input (ASO design characteristics). The result of the search is a list of hypotheses sorted by how well they match observations.
 
-Caspase toxicity is a biological mechanism that is a function of many subprocesses in the cell. Working with the QLattice is an iterative process by which we want to understand how the data we have is related to these biological mechanisms. We start by engineering some simple features and by seeing how they interact eventually come up with appropriatetly complex features to describe caspase toxicity. The output in the end is not only a predictive model that we can benchmark, but an actual explanation of the underlying biology that enables us to design less toxic compounds in the future.
+Caspase toxicity is a biological mechanism that is a function of many subprocesses in the cell. Working with the QLattice is an iterative process by which we want to understand how the data we have is related to these biological mechanisms. We start by engineering some simple features and by seeing how they interact we eventually come up with appropriate features to describe caspase toxicity. The output in the end is not only a predictive model that we can benchmark, but an actual explanation of the underlying biology that enables us to design less toxic compounds in the future.
 
 In this blogpost we use the QLattice to generate classification models. Mathematically, this means that the QLattice will wrap each expression in a logistic function. This allows the output to be interpreted as a probability. In other words, if $X$ is an input vector and $Y$ is the event we want to predict, then the QLattice will search for functions $f(X)$ such that the predictive power of
 $$\widehat{Y} = \frac{1}{1+e^{-f(X)}}$$
