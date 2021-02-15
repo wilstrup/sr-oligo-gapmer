@@ -76,7 +76,7 @@ Below are five entries of the data set.
 
 ## Strategy
 
-First we will use the QLattice to find a mathematical expression that will serve as a hypothesis for the relation between LNA ASO design and toxicity solely on region A. Then we will scrutinize this hypothesis by testing whether it generalises to region B.
+First we will use the QLattice to find a mathematical expression that will serve as a hypothesis for the relation between LNA ASO design and toxicity solely on region A. The key point of a hypothesis is to be able to invalidate it. Along these lines we will scrutinize this hypothesis by testing whether it generalises to region B.
 
 Previous work has shown that a reasonable threshold for caspase activation is 300%. [(Deickmann et al)](https://doi.org/10.1016/j.omtn.2017.11.004).
 We will use this as the cutoff value for training a QLattice classifier model: below this value the drug is seen as having low/mid levels of toxicity (negative class), while above this threshold the drug is seen as very toxic (positive class).
@@ -103,6 +103,7 @@ We will engineer four features that capture some of the LNA ASOs design.
 - **lna_3p**: the number of LNA nucleobases in the *right* flank (3'). Embedded DNA bases are not counted;
 - **lna_count**: the number of LNA nucleobases across the ASO;
 - **dna_count**: the number of DNA nucleobases across the ASO;
+- **aso_len**: the length of the ASO.
 
 Note that there is some redundancy here: $lna\_count = lna\_5p + lna\_3p$. We include it nonetheless to allow the QLattice to choose whether to distinguish between the 5' and the 3' end or not.
 
@@ -114,7 +115,7 @@ Here is the final dataset to be fed to the QLattice. Observe this is only on ASO
 
 The QLattice is a quantum-inspired algorithm that explores the space of all mathematical expressions that relate the output (toxicity) to the input (ASO design characteristics). The result of the search is a list of hypotheses sorted by how well they match observations.
 
-Caspase toxicity is a biological mechanism that is a function of many subprocesses in the cell. Working with the QLattice is an iterative process by which we want to understand how the data we have is related to these biological mechanisms. We start by engineering some simple features and by seeing how they interact we eventually come up with appropriate features to describe caspase toxicity. The output in the end is not only a predictive model that we can benchmark, but an actual explanation of the underlying biology that enables us to design less toxic compounds in the future.
+Caspase toxicity is a biological mechanism that is a function of many subprocesses in the cell. We engineered some simple features and allowed the QLattice to search through different interactions between them that describe toxicity. The result in the end is not only a predictive model that we can benchmark, but an actual explanation of the underlying biology that enables us to design less toxic compounds in the future.
 
 In this blogpost we use the QLattice to generate classification models. Mathematically, this means that the QLattice will wrap each expression in a logistic function. This allows the output to be interpreted as a probability. In other words, if $X$ is an input vector and $Y$ is the event we want to predict, then the QLattice will search for functions $f(X)$ such that the predictive power of
 $$\widehat{Y} = \frac{1}{1+e^{-f(X)}}$$
