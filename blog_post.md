@@ -1,3 +1,6 @@
+# The QLattice applied to Gene therapy
+
+#`How symbolic regression explains toxicity of DNA-based drugs`
 
 ## Antisense therapy
 
@@ -9,11 +12,6 @@ Recently, RNA- and DNA-based drugs have shown great promise of treating diseases
 
 ![Antisense](assets/antisense_therapy.png)
 [*The Conversation* - Antisense therapy: a promising new way to treat neurological disease](https://theconversation.com/antisense-therapy-a-promising-new-way-to-treat-neurological-disease-89006)
-
-```
-- DNA/RNA is not converted, it is transcribed
-- gapmers are RNase H recruiting, an enzyme that cleaves the site that the gapmer attached to.
-```
 
 This introduction relied heavily on [*Antisense Therapy: An Overview* by Shashwat Sharad](https://www.intechopen.com/books/antisense-therapy/antisense-therapy-an-overview).
 
@@ -183,3 +181,5 @@ Our hypothesis indicates that LNA design **does** contribute to toxicity. More s
 To provide further tests to this hypothesis it would be interesting to perform experiments with LNA ASOs whose sequences are different from the ones in regions A and B.
 
 Note that in our feature engineering process we didn't discriminate between positions of the LNA modifications in the flanks, we only counted them. This could be a cause to the misclassifications as some positions might contribute more than others. For further study we could investigate whether the position of the LNA modification in the flanks contributes to toxicity.
+
+The details of this work can be seen in the notebook *Gapmer Classification analysis.ipynb* from this [github repository](https://github.com/wilstrup/sr-oligo-gapmer).
