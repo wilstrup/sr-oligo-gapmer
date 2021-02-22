@@ -4,23 +4,22 @@
 
 ## Antisense therapy
 
-Since the advent of the human genome project, we have advanced rapidly in sequencing technology. One big advantage to this is that we have been able to identify the genetic roots of several diseases such as cancer, Parkinson's, rheumatoid arthritis, and Alzheimer's. This knowledge has been thoroughly applied to diagnostic use. However, its full potential has not been realised to treating these diseases.
+Since the advent of the human genome project, scientists have advanced rapidly in sequencing technology. One big advantage to this is that we have been able to identify the genetic roots of several diseases such as cancer, Parkinson's, rheumatoid arthritis, and Alzheimer's. This knowledge has been thoroughly applied to diagnostic use. However, its full potential has not been realised to treating these diseases.
 
 How wonderful would it be to target these specific genetic defects with personalized medicine?
 
 Recently, RNA- and DNA-based drugs have shown great promise of treating diseases at the genetic level. One specific type of drug is chemically engineered oligonucleotides that are complementary to a specific messenger RNA (mRNA). They bind to the mRNA through standard base-pairing which stops the translation of the target protein. These short, synthetic, single-stranded nucleic acids are called antisense oligonucleotides (ASOs).
 
-![Antisense](assets/antisense_therapy.png)
-[*The Conversation* - Antisense therapy: a promising new way to treat neurological disease](https://theconversation.com/antisense-therapy-a-promising-new-way-to-treat-neurological-disease-89006)
+![Antisense](assets/DNA_Transcription-Translation_ASO.png)
 
 This introduction relied heavily on [*Antisense Therapy: An Overview* by Shashwat Sharad](https://www.intechopen.com/books/antisense-therapy/antisense-therapy-an-overview).
 
 ## Locked Nucleic Acids (LNA)
 
-If we simply produce a short strand of DNA or RNA complementary to the specific mRNA we run into some limitations:
+If we simply produce a short strand of DNA or RNA complementary to the specific mRNA, then we run into some limitations:
 
 * it will be unstable, i.e. likely to degrade;
-* it has a poor binding affinity making it bad at attaching to the target site.
+* it has a poor binding affinity, which makes it bad at attaching to the target site.
 
 Therefore the oligonucleotides need synthetic modifications to overcome these limitations. One example is locked nucleic acids (LNA). These are modifications to the sugar ring that make up the nucleotide. LNA modifications are intended to increase the resistance of the ASO to degradation. LNA also has a big effect on the binding energy of the ASO, increasing the likelihood that it will attach to the target site on the mRNA.
 
@@ -50,7 +49,7 @@ The QLattice is a symbolic regression algorithm designed to find the simplest ma
 
 In summary, the crux of this blogpost will be to try to answer the following question:
 
-**Does LNA design contribute to toxicity and if so, how?**
+**Does LNA design contribute to toxicity; and, if so, how?**
 
 ## Data
 
@@ -76,7 +75,7 @@ Below are five entries of the data set.
 
 First we will use the QLattice to find a mathematical expression that will serve as a hypothesis for the relation between LNA ASO design and toxicity solely on region A. The key point of a hypothesis is to be able to invalidate it. Along these lines we will scrutinize this hypothesis by testing whether it generalises to region B.
 
-Previous work has shown that a reasonable threshold for caspase activation is 300%. [(Deickmann et al)](https://doi.org/10.1016/j.omtn.2017.11.004).
+Previous work has shown that a reasonable threshold for caspase activation is 300% [(Deickmann et al)](https://doi.org/10.1016/j.omtn.2017.11.004).
 We will use this as the cutoff value for training a QLattice classifier model: below this value the drug is seen as having low/mid levels of toxicity (negative class), while above this threshold the drug is seen as very toxic (positive class).
 
 It should be noted that we will not be optimizing for potency (knockdown).
@@ -165,20 +164,20 @@ Below are the ROC curves of each region with their respective AUC scores
 
 Observe how the AUC score on region B is actually higher than on region A. This shows the hypothesis (graph) above generalises well to region B.
 
-Lastly we plot the distributions of the predicted probability scores for each region. According to the AUC scores, region B
+Lastly, we plot the distributions of the predicted probability scores for each region. According to the AUC scores, region B
 separates more cleanly between the classes compared to region A.
 
 ![Prob plots](assets/prob_plots_regsAB.png)
 
 ## Conclusion
 
-We began our journey settled on tackling the question:
+We began our journey to tackle the question:
 
-**Does LNA design contribute to toxicity and if so, how?**
+**Does LNA design contribute to toxicity; and, if so, how?**
 
 Our hypothesis indicates that LNA design **does** contribute to toxicity. More specifically, it says that there is an elliptical boundary that separates between the positive and negative classes. High toxicity is associated with high LNA count on both flanks (`lna_5p` $\gtrsim$ 3 and `lna_3p` $\gtrsim$ 4). Furthermore, the good performance on region B added validity to the hypothesis.
 
-To provide further tests to this hypothesis it would be interesting to perform experiments with LNA ASOs whose sequences are different from the ones in regions A and B.
+To provide further tests to this hypothesis, it would be interesting to perform experiments with LNA ASOs whose sequences are different from the ones in regions A and B.
 
 Note that in our feature engineering process we didn't discriminate between positions of the LNA modifications in the flanks, we only counted them. This could be a cause to the misclassifications as some positions might contribute more than others. For further study we could investigate whether the position of the LNA modification in the flanks contributes to toxicity.
 
