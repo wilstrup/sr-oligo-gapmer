@@ -37,13 +37,13 @@ Here `TGGC` and `TGTA` are the LNA-modified flanks and `aagcatcc` is the 'gap' b
 
 ## Toxic side effects
 
-Some LNA ASOs are very effective at reducing the expression of targeted proteins. However there is evidence that LNA ASOs can cause liver damage  (hepatotoxicity) - [Swayze et al](10.1093/nar/gkl1071), [Burel et al](10.1093/nar/gkv1210).
+Some LNA ASOs are very effective at reducing the expression of targeted proteins. However there is evidence that LNA ASOs can cause liver damage  (hepatotoxicity) - [Swayze et al](https://doi.org/10.1093/nar/gkl1071), [Burel et al](https://doi.org/10.1093/nar/gkv1210).
 
 While such drugs would not be approved for clinical trials, a clear understanding of the mechanism leading to toxicity is necessary to improve the development of safe ASO drugs.
 
-Preclinical studies have shown that levels of liver toxicity were independent of the gene inhibition caused by LNA ASOs ([Swayze et al](10.1093/nar/gkl1071)). Moreover the replacement of a single nucleotide in the LNA gapmer can have significant effects on its toxicity ([Stanton et al](https://doi.org/10.1089/nat.2012.0366)), meaning that LNA ASO design could be a major contributer to toxicity.
+Preclinical studies have shown that levels of liver toxicity were independent of the gene inhibition caused by LNA ASOs ([Swayze et al](https://doi.org/10.1093/nar/gkl1071)). Moreover the replacement of a single nucleotide in the LNA gapmer can have significant effects on its toxicity ([Stanton et al](https://doi.org/10.1089/nat.2012.0366)), meaning that LNA ASO design could be a major contributer to toxicity.
 
-People have used machine learning methods to understand the relation between LNA ASO sequence structures and toxicity ([Hagedorn et al](10.1089/nat.2013.0436), [Stanton et al](https://doi.org/10.1089/nat.2012.0366), [Papargyri et al](https://doi.org/10.1016/j.omtn.2019.12.011)). In this blogpost we aim at contributing to these efforts by applying a novel method using symbolic regression: the [QLattice](https://www.abzu.ai/).
+People have used machine learning methods to understand the relation between LNA ASO sequence structures and toxicity ([Hagedorn et al](https://doi.org/10.1089/nat.2013.0436), [Stanton et al](https://doi.org/10.1089/nat.2012.0366), [Papargyri et al](https://doi.org/10.1016/j.omtn.2019.12.011)). In this blogpost we aim at contributing to these efforts by applying a novel method using symbolic regression: the [QLattice](https://www.abzu.ai/).
 
 The QLattice is a symbolic regression algorithm designed to find the simplest mathematical relationship that will explain observations. One can find out more about it [here](https://docs.abzu.ai/).
 
@@ -75,7 +75,7 @@ Below are five entries of the data set.
 
 First we will use the QLattice to find a mathematical expression that will serve as a hypothesis for the relation between LNA ASO design and toxicity solely on region A. The key point of a hypothesis is to be able to invalidate it. Along these lines we will scrutinize this hypothesis by testing whether it generalises to region B.
 
-Previous work has shown that a reasonable threshold for caspase activation is 300% [(Deickmann et al)](https://doi.org/10.1016/j.omtn.2017.11.004).
+Previous work has shown that a reasonable threshold for caspase activation is 300% [(Dieckmann et al)](https://doi.org/10.1016/j.omtn.2017.11.004).
 We will use this as the cutoff value for training a QLattice classifier model: below this value the drug is seen as having low/mid levels of toxicity (negative class), while above this threshold the drug is seen as very toxic (positive class).
 
 It should be noted that we will not be optimizing for potency (knockdown).
