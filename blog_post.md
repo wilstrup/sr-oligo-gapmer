@@ -1,6 +1,6 @@
-# The QLattice applied to Gene therapy
+# AI and personalised medicine: can symbolic regression unite them?
 
-#`How symbolic regression explains toxicity of DNA-based drugs`
+#`How the QLattice explains toxicity of DNA-based drugs`
 
 ## Antisense therapy
 
@@ -27,7 +27,7 @@ For more information on LNA, you can begin by checking [*Locked nucleic acid as 
 
 ## LNA Gapmers
 
-How to make use of LNA, then? A synthesized oligonucleotide will be flanked by LNA molecules, which not only will protect it from enzymes, but also help it attach to the targeted mRNA sequence. These are called LNA gapmers and the gap refers to the unmodified oligonucleotide between the LNA flanks.
+How to make use of LNA, then? A synthesized oligonucleotide will be flanked by LNA molecules, which not only will protect it from enzymes, but also help it attach to the targeted mRNA sequence. Then, these LNA gapmers support binding of a ribonuclease to the duplex between RNA and gapmer. Finally, the cleaved RNA rapidly degrades, as its ends are left unprotected.
 
 The ASOs we will be discussing in this blogpost are LNA gapmers. Here they will be represented as strings of nucleobases with the following convention: LNA-modified bases will be written in uppercase, while unmodified bases will be written in lowercase. Below is an example of an LNA gapmer:
 
